@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  CouchDB0:
+    image: couchdb:3.1.0
+    command: --port 5984
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
+    ports:
+      - "5984:5984"
+    restart: always 
