@@ -1,42 +1,39 @@
 # konserve-couchdb
 
-A couchdb backend for [konserve](https://github.com/replikativ/konserve) implemented with [carmine](https://github.com/ptaoussanis/carmine). 
+A couchdb backend for [konserve](https://github.com/replikativ/konserve) implemented with [clutch](https://github.com/clojure-clutch/clutch). 
 
 
 # Status
 
-![build](https://github.com/alekcz/konserve-redis/workflows/build/badge.svg?branch=master) [![codecov](https://codecov.io/gh/alekcz/konserve-redis/branch/master/graph/badge.svg)](https://codecov.io/gh/alekcz/konserve-redis) 
+![build](https://github.com/alekcz/konserve-couchdb/workflows/build/badge.svg?branch=master) [![codecov](https://codecov.io/gh/alekcz/konserve-couchdb/branch/master/graph/badge.svg)](https://codecov.io/gh/alekcz/konserve-couchdb) 
 
 ## Usage
 
-[![Clojars Project](https://img.shields.io/clojars/v/alekcz/konserve-redis.svg)](http://clojars.org/alekcz/konserve-redis)
+[![Clojars Project](https://img.shields.io/clojars/v/alekcz/konserve-couchdb.svg)](http://clojars.org/alekcz/konserve-couchdb)
 
-`[alekcz/konserve-redis "0.1.0-SNAPSHOT"]`
+`[alekcz/konserve-couchdb "0.1.0-SNAPSHOT"]`
 
 The purpose of konserve is to have a unified associative key-value interface for
 edn datastructures and binary blobs. Use the standard interface functions of konserve.
 
-You can provide the carmine redis connection specification map to the
-`new-redis-store` constructor as an argument. We do not require additional
-settings beyond the konserve serialization protocol for the store, so you can
-still access the store through carmine directly wherever you need.
+You can provide a clutch db object or connenction uri to the `new-couchdb-store` constructor as an argument. We do not require additional settings beyond the konserve serialization protocol for the store, so you can still access the store through clutch directly wherever you need.
 
 ```clojure
-(require '[konserve-redis.core :refer :all]
+(require '[konserve-couchdb.core :refer :all]
          '[clojure.core.async :refer [<!!] :as async]
          '[konserve.core :as k])
   
-  (def redis-store (<!! (new-redis-store {:pool {} :spec {:uri "redis://localhost:6379/"}})))
+  (def couchdb-store (<!! (new-couchdb-store "http://username:password@localhost:5984/database")))
 
-  (<!! (k/exists? redis-store  "cecilia"))
-  (<!! (k/get-in redis-store ["cecilia"]))
-  (<!! (k/assoc-in redis-store ["cecilia"] 28))
-  (<!! (k/update-in redis-store ["cecilia"] inc))
-  (<!! (k/get-in redis-store ["cecilia"]))
+  (<!! (k/exists? couchdb-store  "cecilia"))
+  (<!! (k/get-in couchdb-store ["cecilia"]))
+  (<!! (k/assoc-in couchdb-store ["cecilia"] 28))
+  (<!! (k/update-in couchdb-store ["cecilia"] inc))
+  (<!! (k/get-in couchdb-store ["cecilia"]))
 
   (defrecord Test [a])
-  (<!! (k/assoc-in redis-store ["agatha"] (Test. 35)))
-  (<!! (k/get-in redis-store ["agatha"]))
+  (<!! (k/assoc-in couchdb-store ["agatha"] (Test. 35)))
+  (<!! (k/get-in couchdb-store ["agatha"]))
 ```
 
 
