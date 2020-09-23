@@ -1,6 +1,6 @@
 (defproject alekcz/konserve-couchdb "0.1.0-SNAPSHOT"
   :description "A couchdb backend for konserve using clutch."
-  :url "https://github.com/alekcz/konserve-redis"
+  :url "https://github.com/alekcz/konserve-couchdb"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :aot :all
